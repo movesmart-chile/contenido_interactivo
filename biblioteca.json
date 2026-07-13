@@ -1,14 +1,38 @@
 [
   {
     "id": 1,
-    "titulo": "Evaluación Interactiva",
+    "titulo": "Evaluación interactiva MoveSmart",
     "slug": "evaluacion-interactiva",
     "tipo": "Evaluación",
-    "descripcion": "Descubre qué necesita tu cuerpo según tu dolor, energía, tiempo disponible y objetivos.",
+    "descripcion": "Descubre qué necesita tu cuerpo según tu dolor, energía, tiempo disponible y objetivo.",
     "duracion": "5 minutos",
+    "imagen": "assets/img/portada/evaluacion_interactiva.webp",
+    "ruta": "biblioteca/evaluacion-interactiva/",
     "estado": "Publicado",
-    "imagen": "portada.webp",
-    "color": "#ff4b18",
+    "destacado": true
+  },
+  {
+    "id": 2,
+    "titulo": "Calculadora costo de rehabilitación",
+    "slug": "calculadora-costo-rehabilitacion",
+    "tipo": "Calculadora",
+    "descripcion": "Calcula cuánto puede costarte postergar tu recuperación en tiempo, dinero y calidad de vida.",
+    "duracion": "3 minutos",
+    "imagen": "assets/img/portada/calculadora_costo_rehabilitacion.webp",
+    "ruta": "biblioteca/calculadora-costo-rehabilitacion/",
+    "estado": "Publicado",
+    "destacado": true
+  },
+  {
+    "id": 3,
+    "titulo": "¿Cómo eres cuando algo te duele?",
+    "slug": "como-eres-cuando-algo-te-duele",
+    "tipo": "Quiz",
+    "descripcion": "Responde seis preguntas y descubre cómo reaccionas frente al dolor.",
+    "duracion": "2 minutos",
+    "imagen": "assets/img/portada/como_eres_cuando_algo_te_duele.webp",
+    "ruta": "biblioteca/como-eres-cuando-algo-te-duele/",
+    "estado": "Publicado",
     "destacado": true
   }
 ]
