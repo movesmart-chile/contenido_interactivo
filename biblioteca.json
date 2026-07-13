@@ -1,1 +1,14 @@
-
+[
+  {
+    "id": 1,
+    "titulo": "Evaluación Interactiva",
+    "slug": "evaluacion-interactiva",
+    "tipo": "Evaluación",
+    "descripcion": "Descubre qué necesita tu cuerpo según tu dolor, energía, tiempo disponible y objetivos.",
+    "duracion": "5 minutos",
+    "estado": "Publicado",
+    "imagen": "portada.webp",
+    "color": "#ff4b18",
+    "destacado": true
+  }
+]
