@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MoveSmart | ¿Cómo eres cuando algo te duele?</title>
+
+<meta property="og:title" content="¿Cómo eres cuando algo te duele? | MoveSmart">
+<meta property="og:description" content="Responde 6 preguntas y descubre tu forma de reaccionar frente al dolor.">
+<meta property="og:type" content="website">
+
+<style>
+  :root{
+    --bg:#09060d;
+    --card:rgba(12,10,16,.72);
+    --card-2:rgba(18,14,22,.86);
+    --border:rgba(255,255,255,.14);
+    --text:#ffffff;
+    --muted:#cfc7d6;
+    --accent:#ff4b18;
+    --accent-2:#ff7a2f;
+    --radius:28px;
+    --shadow:0 26px 70px rgba(0,0,0,.55);
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color:var(--text);
+    background:#07050a;
+  }
+
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(circle at 80% 10%, rgba(255,94,31,.24), transparent 30%),
+      radial-gradient(circle at 12% 90%, rgba(255,94,31,.16), transparent 34%),
+      var(--bg);
+    z-index:-1;
+  }
+
+  .page{
+    width:min(640px, calc(100% - 32px));
+    margin:0 auto;
+    padding:40px 0 60px;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+
+  .brand{
+    text-align:center;
+    margin:0 0 26px;
+    font-weight:950;
+    letter-spacing:-.06em;
+    font-size:clamp(1.7rem, 4vw, 2.3rem);
+  }
+
+  .brand span{color:var(--accent)}
+
+  .quiz-card{
+    position:relative;
+    padding:36px 30px;
+    border:1px solid rgba(255,75,24,.34);
+    border-radius:var(--radius);
+    background:
+      linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.015)),
+      var(--card);
+    box-shadow:var(--shadow);
+    text-align:center;
+  }
+
+  .icon{
+    width:64px;
+    height:64px;
+    margin:0 auto 20px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    border:2px solid rgba(255,75,24,.6);
+    color:var(--accent);
+    font-size:1.8rem;
+    box-shadow:0 0 30px rgba(255,75,24,.22);
+  }
+
+  h1{
+    margin:0 0 14px;
+    font-size:clamp(1.7rem, 4.4vw, 2.3rem);
+    line-height:1.08;
+    letter-spacing:-.045em;
+    font-weight:900;
+  }
+
+  #intro p{
+    margin:0 0 30px;
+    color:var(--muted);
+    font-size:1.05rem;
+    line-height:1.55;
+  }
+
+  .btn{
+    width:100%;
+    border:0;
+    border-radius:18px;
+    padding:18px 22px;
+    background:linear-gradient(180deg, var(--accent-2), var(--accent));
+    color:#fff;
+    font-size:1.02rem;
+    font-weight:900;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    box-shadow:0 18px 42px rgba(255,75,24,.32);
+    transition:.2s ease;
+    text-decoration:none;
+  }
+
+  .btn:hover{transform:translateY(-2px); filter:brightness(1.05)}
+
+  .btn-secondary{
+    background:rgba(255,255,255,.08);
+    box-shadow:none;
+    border:1px solid rgba(255,255,255,.16);
+    margin-top:12px;
+  }
+
+  .progress-wrap{
+    width:100%;
+    height:8px;
+    border-radius:999px;
+    background:rgba(255,255,255,.10);
+    overflow:hidden;
+    margin-bottom:10px;
+  }
+
+  .progress-bar{
+    height:100%;
+    width:0%;
+    border-radius:999px;
+    background:linear-gradient(90deg, var(--accent-2), var(--accent));
+    transition:width .3s ease;
+  }
+
+  .progress-label{
+    color:var(--muted);
+    font-size:.85rem;
+    font-weight:800;
+    letter-spacing:.02em;
+    text-transform:uppercase;
+    margin-bottom:22px;
+  }
+
+  #questionText{
+    font-size:clamp(1.25rem, 3.4vw, 1.6rem);
+    line-height:1.25;
+    margin:0 0 26px;
+    letter-spacing:-.02em;
+  }
+
+  .options-list{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .option-btn{
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(0,0,0,.30);
+    border-radius:18px;
+    color:#fff;
+    padding:16px 18px;
+    text-align:left;
+    font-size:1rem;
+    font-weight:700;
+    line-height:1.4;
+    cursor:pointer;
+    transition:.2s ease;
+  }
+
+  .option-btn:hover{
+    border-color:rgba(255,75,24,.9);
+    background:rgba(255,75,24,.10);
+    transform:translateY(-2px);
+  }
+
+  .result-emoji{
+    font-size:3rem;
+    margin-bottom:10px;
+  }
+
+  .result-eyebrow{
+    color:var(--accent);
+    font-weight:900;
+    font-size:.85rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+
+  #resultArea h1{
+    margin-bottom:16px;
+  }
+
+  #resultArea p{
+    color:var(--muted);
+    line-height:1.6;
+    font-size:1.03rem;
+    text-align:left;
+    margin:0 0 16px;
+  }
+
+  .tip-box{
+    text-align:left;
+    margin:20px 0 26px;
+    padding:18px 20px;
+    border-radius:20px;
+    background:rgba(255,75,24,.08);
+    border:1px solid rgba(255,75,24,.28);
+  }
+
+  .tip-box strong{
+    display:block;
+    color:var(--accent-2);
+    font-weight:950;
+    margin-bottom:6px;
+    font-size:.92rem;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+  }
+
+  .tip-box p{margin:0; color:#fff; font-size:.98rem}
+
+  @media(max-width:520px){
+    .quiz-card{padding:28px 20px}
+  }
+</style>
+</head>
+<body>
+
+<main class="page">
+  <div class="brand">Move<span>Smart</span></div>
+
+  <!-- INTRO -->
+  <section class="quiz-card" id="intro">
+    <div class="icon">◎</div>
+    <h1>¿Cómo eres cuando algo te duele?</h1>
+    <p>6 preguntas rápidas para descubrir tu forma de reaccionar frente al dolor — y qué necesitas realmente para recuperarte mejor.</p>
+    <button class="btn" type="button" onclick="startQuiz()">Comenzar el quiz ›</button>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="quiz-card" id="quizArea" style="display:none;">
+    <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="progress-label" id="progressLabel">Pregunta 1 de 6</div>
+    <h2 id="questionText"></h2>
+    <div class="options-list" id="optionsList"></div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="quiz-card" id="resultArea" style="display:none;">
+    <div class="result-emoji" id="resultEmoji"></div>
+    <div class="result-eyebrow">Tu resultado</div>
+    <h1 id="resultTitle"></h1>
+    <p id="resultDesc"></p>
+
+    <div class="tip-box">
+      <strong>Lo que MoveSmart te recomienda</strong>
+      <p id="resultTip"></p>
+    </div>
+
+    <a class="btn" id="resultCta" href="https://cami2025.github.io/movesmart-web/evaluacion-gratuita-movesmart.html" target="_blank" rel="noopener noreferrer">
+      Quiero mi evaluación gratis ›
+    </a>
+    <button class="btn btn-secondary" type="button" onclick="restartQuiz()">Volver a hacer el quiz</button>
+  </section>
+</main>
+
+<script>
+  const preguntas = [
+    {
+      texto: "Cuando te empieza a doler algo, ¿qué es lo primero que haces?",
+      opciones: [
+        { letra: "A", texto: "Sigo entrenando igual, después se me pasa." },
+        { letra: "B", texto: "Abro Google y busco qué podría ser." },
+        { letra: "C", texto: "Dejo de moverme por si acaso." },
+        { letra: "D", texto: "Pruebo algo rápido: crema, parche, lo que sea." },
+        { letra: "E", texto: "Observo cómo se comporta antes de decidir qué hacer." }
+      ]
+    },
+    {
+      texto: "Si el dolor no se pasa en unos días...",
+      opciones: [
+        { letra: "A", texto: "Sigo igual, no le doy tanta importancia." },
+        { letra: "B", texto: "Sigo investigando cada vez más." },
+        { letra: "C", texto: "Me preocupo y evito aún más esa zona." },
+        { letra: "D", texto: "Cambio de remedio, pruebo otra cosa." },
+        { letra: "E", texto: "Ajusto lo que estoy haciendo y busco entender la causa." }
+      ]
+    },
+    {
+      texto: "Tu actitud frente al reposo es...",
+      opciones: [
+        { letra: "A", texto: "¿Reposo? No, sigo con todo." },
+        { letra: "B", texto: "Investigo cuánto reposo 'dicen' que necesito." },
+        { letra: "C", texto: "Reposo total, no me muevo nada." },
+        { letra: "D", texto: "Reposo un día y ya quiero volver." },
+        { letra: "E", texto: "Reposo activo, con movimiento controlado." }
+      ]
+    },
+    {
+      texto: "Alguien te dice 'deberías ver a un profesional'. Tú...",
+      opciones: [
+        { letra: "A", texto: "Le digo que estoy bien, que no es para tanto." },
+        { letra: "B", texto: "Ya leí tanto que siento que sé más que el doctor." },
+        { letra: "C", texto: "Me da miedo que me digan algo grave." },
+        { letra: "D", texto: "Voy, pero quiero que me solucionen ya." },
+        { letra: "E", texto: "Voy, para tener un plan claro." }
+      ]
+    },
+    {
+      texto: "Tu relación con el dolor, en general, es...",
+      opciones: [
+        { letra: "A", texto: "Lo ignoro hasta que ya no puedo más." },
+        { letra: "B", texto: "Lo analizo todo el tiempo." },
+        { letra: "C", texto: "Le tengo bastante respeto (o miedo)." },
+        { letra: "D", texto: "Quiero que se vaya YA." },
+        { letra: "E", texto: "Lo escucho, sin dramatizar." }
+      ]
+    },
+    {
+      texto: "Si tuvieras un plan de recuperación, ¿qué esperarías de él?",
+      opciones: [
+        { letra: "A", texto: "Ninguno, prefiero seguir por mi cuenta." },
+        { letra: "B", texto: "Uno con toda la evidencia y explicación detrás." },
+        { letra: "C", texto: "Uno bien seguro, sin ningún riesgo." },
+        { letra: "D", texto: "Uno rápido, que funcione en pocos días." },
+        { letra: "E", texto: "Uno adaptado a mi día a día, con progresión real." }
+      ]
+    }
+  ];
+
+  const resultados = {
+    A: {
+      emoji: "🏃",
+      titulo: "El/La Ignora-Dolor",
+      desc: "Sigues entrenando pase lo que pase. El dolor tiene que ponerse serio para que le prestes atención — y para entonces, muchas veces ya se acumuló más de la cuenta. Tu fuerza de voluntad es real, pero el cuerpo no siempre responde bien a que lo ignoren.",
+      tip: "No se trata de parar todo, sino de aprender a distinguir cuándo el dolor es una señal de alerta y cuándo puedes seguir. Un plan que se adapte a tus niveles de dolor día a día te permite seguir avanzando sin acumular daño."
+    },
+    B: {
+      emoji: "🔍",
+      titulo: "El/La Detective de Google",
+      desc: "Cuando algo te duele, te conviertes en investigadora profesional: síntomas, foros, videos, artículos. Buscas entender todo antes de actuar, lo cual habla de lo responsable que eres — pero también puede generarte más ansiedad que claridad.",
+      tip: "Toda esa información necesita un filtro que la ordene para tu caso específico. Un plan personalizado te da las respuestas que la búsqueda infinita no puede darte: qué hacer, cuándo y por qué."
+    },
+    C: {
+      emoji: "🛑",
+      titulo: "El/La Evitadora",
+      desc: "El dolor te hace frenar por completo. Prefieres no arriesgarte, así que dejas de mover la zona afectada — a veces más de lo necesario. Esa cautela viene de un buen lugar, pero el reposo excesivo también puede alargar la recuperación.",
+      tip: "El movimiento controlado y progresivo, bien dosificado, suele ser parte de la solución y no del problema. Necesitas un plan que te diga exactamente cuánto y cómo moverte, sin miedo a hacerte daño."
+    },
+    D: {
+      emoji: "⚡",
+      titulo: "El/La Impaciente Express",
+      desc: "Quieres que el dolor se vaya ya. Pruebas remedios, cambias de estrategia rápido y te frustras si algo no funciona en un par de días. Esa urgencia es entendible, pero el cuerpo se recupera con procesos, no con atajos.",
+      tip: "La clave está en tener expectativas realistas y un plan con etapas claras, para que sientas avance constante sin depender de soluciones mágicas que no sostienen resultados en el tiempo."
+    },
+    E: {
+      emoji: "🧭",
+      titulo: "La Estratega MoveSmart",
+      desc: "Ya tienes el instinto correcto: observas, ajustas y buscas entender antes de actuar. Escuchas a tu cuerpo sin dramatizar ni ignorarlo. Con un plan bien estructurado detrás, tu forma de enfrentar el dolor puede volverse tu mayor ventaja para recuperarte bien.",
+      tip: "Lo que te falta no es actitud, es un plan que traduzca esa buena intuición en pasos concretos, medibles y adaptados a tu vida real."
+    }
+  };
+
+  let preguntaActual = 0;
+  const puntajes = { A: 0, B: 0, C: 0, D: 0, E: 0 };
+
+  function startQuiz(){
+    document.getElementById("intro").style.display = "none";
+    document.getElementById("quizArea").style.display = "block";
+    preguntaActual = 0;
+    Object.keys(puntajes).forEach(k => puntajes[k] = 0);
+    renderPregunta();
+  }
+
+  function renderPregunta(){
+    const total = preguntas.length;
+    const p = preguntas[preguntaActual];
+
+    document.getElementById("progressLabel").textContent = `Pregunta ${preguntaActual + 1} de ${total}`;
+    document.getElementById("progressBar").style.width = `${(preguntaActual / total) * 100}%`;
+    document.getElementById("questionText").textContent = p.texto;
+
+    const lista = document.getElementById("optionsList");
+    lista.innerHTML = "";
+
+    p.opciones.forEach(op => {
+      const btn = document.createElement("button");
+      btn.className = "option-btn";
+      btn.type = "button";
+      btn.textContent = op.texto;
+      btn.onclick = () => seleccionar(op.letra);
+      lista.appendChild(btn);
+    });
+  }
+
+  function seleccionar(letra){
+    puntajes[letra]++;
+    preguntaActual++;
+
+    if(preguntaActual < preguntas.length){
+      renderPregunta();
+    }else{
+      document.getElementById("progressBar").style.width = "100%";
+      setTimeout(mostrarResultado, 200);
+    }
+  }
+
+  function mostrarResultado(){
+    let letraGanadora = "A";
+    let max = -1;
+
+    Object.keys(puntajes).forEach(letra => {
+      if(puntajes[letra] > max){
+        max = puntajes[letra];
+        letraGanadora = letra;
+      }
+    });
+
+    const r = resultados[letraGanadora];
+
+    document.getElementById("resultEmoji").textContent = r.emoji;
+    document.getElementById("resultTitle").textContent = r.titulo;
+    document.getElementById("resultDesc").textContent = r.desc;
+    document.getElementById("resultTip").textContent = r.tip;
+
+    document.getElementById("quizArea").style.display = "none";
+    document.getElementById("resultArea").style.display = "block";
+  }
+
+  function restartQuiz(){
+    document.getElementById("resultArea").style.display = "none";
+    document.getElementById("intro").style.display = "block";
+  }
+</script>
+</body>
+</html>
