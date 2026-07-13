@@ -1,0 +1,589 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MoveSmart | ¿Cuánto cuesta rehabilitarse realmente?</title>
+
+<meta property="og:title" content="¿Cuánto cuesta rehabilitarse realmente? | MoveSmart">
+<meta property="og:description" content="Descubre cuánto estás pagando en dinero, tiempo y frustración por no tener un plan de rehabilitación estructurado.">
+<meta property="og:type" content="website">
+
+<style>
+  :root{
+    --bg:#09060d;
+    --card:rgba(12,10,16,.72);
+    --border:rgba(255,255,255,.14);
+    --text:#ffffff;
+    --muted:#cfc7d6;
+    --accent:#ff4b18;
+    --accent-2:#ff7a2f;
+    --radius:28px;
+    --shadow:0 26px 70px rgba(0,0,0,.55);
+  }
+
+  *{box-sizing:border-box}
+
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color:var(--text);
+    background:#07050a;
+  }
+
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+      radial-gradient(circle at 82% 8%, rgba(255,94,31,.24), transparent 30%),
+      radial-gradient(circle at 10% 92%, rgba(255,94,31,.16), transparent 34%),
+      var(--bg);
+    z-index:-1;
+  }
+
+  .page{
+    width:min(640px, calc(100% - 32px));
+    margin:0 auto;
+    padding:40px 0 100px;
+  }
+
+  .brand{
+    text-align:center;
+    margin:0 0 26px;
+    font-weight:950;
+    letter-spacing:-.06em;
+    font-size:clamp(1.7rem, 4vw, 2.3rem);
+  }
+
+  .brand span{color:var(--accent)}
+
+  .card{
+    padding:34px 28px;
+    border:1px solid rgba(255,75,24,.34);
+    border-radius:var(--radius);
+    background:
+      linear-gradient(145deg, rgba(255,255,255,.07), rgba(255,255,255,.015)),
+      var(--card);
+    box-shadow:var(--shadow);
+    margin-bottom:20px;
+  }
+
+  .intro{text-align:center}
+
+  .icon{
+    width:60px;
+    height:60px;
+    margin:0 auto 18px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    border:2px solid rgba(255,75,24,.6);
+    color:var(--accent);
+    font-size:1.7rem;
+    box-shadow:0 0 30px rgba(255,75,24,.22);
+  }
+
+  h1{
+    margin:0 0 12px;
+    font-size:clamp(1.5rem, 4.2vw, 2.05rem);
+    line-height:1.12;
+    letter-spacing:-.04em;
+    font-weight:900;
+  }
+
+  h1 span{color:var(--accent)}
+
+  .intro p{
+    margin:0;
+    color:var(--muted);
+    font-size:1rem;
+    line-height:1.6;
+  }
+
+  .list-title{
+    font-size:.82rem;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--accent-2);
+    margin-bottom:16px;
+  }
+
+  /* Selector de tiempo */
+  .time-options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .time-option{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px 16px;
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(255,255,255,.03);
+    cursor:pointer;
+    font-weight:750;
+    font-size:.96rem;
+    transition:.2s ease;
+  }
+
+  .time-option:hover{
+    border-color:rgba(255,75,24,.5);
+    background:rgba(255,75,24,.05);
+  }
+
+  .time-option.selected{
+    border-color:rgba(255,75,24,.8);
+    background:linear-gradient(180deg, var(--accent-2), var(--accent));
+    box-shadow:0 12px 28px rgba(255,75,24,.24);
+  }
+
+  .time-option .dot{
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    border:2px solid rgba(255,255,255,.32);
+    flex:0 0 auto;
+  }
+
+  .time-option.selected .dot{
+    background:#fff;
+    border-color:#fff;
+  }
+
+  /* Checklist de costos */
+  .cost-item{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:16px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.12);
+    background:rgba(255,255,255,.03);
+    margin-bottom:12px;
+    cursor:pointer;
+    transition:.2s ease;
+  }
+
+  .cost-item:hover{
+    border-color:rgba(255,75,24,.5);
+    background:rgba(255,75,24,.05);
+  }
+
+  .cost-item.checked{
+    border-color:rgba(255,75,24,.75);
+    background:rgba(255,75,24,.12);
+    box-shadow:0 10px 26px rgba(255,75,24,.16);
+  }
+
+  .cost-checkbox{
+    width:26px;
+    height:26px;
+    flex:0 0 auto;
+    border-radius:8px;
+    border:2px solid rgba(255,255,255,.28);
+    display:grid;
+    place-items:center;
+    font-weight:900;
+    color:transparent;
+    transition:.2s ease;
+  }
+
+  .cost-item.checked .cost-checkbox{
+    background:linear-gradient(180deg, var(--accent-2), var(--accent));
+    border-color:transparent;
+    color:#fff;
+  }
+
+  .cost-emoji{font-size:1.5rem; flex:0 0 auto}
+
+  .cost-text{flex:1; min-width:0}
+
+  .cost-text strong{
+    display:block;
+    font-size:.98rem;
+    font-weight:800;
+    margin-bottom:2px;
+    line-height:1.3;
+  }
+
+  .cost-text span{
+    color:var(--muted);
+    font-size:.85rem;
+  }
+
+  .cost-value{
+    flex:0 0 auto;
+    font-weight:900;
+    color:var(--accent-2);
+    font-size:.92rem;
+    text-align:right;
+    white-space:nowrap;
+  }
+
+  /* Resultado - 3 tarjetas */
+  .result-title{
+    text-align:center;
+    font-size:.82rem;
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--accent-2);
+    margin-bottom:18px;
+  }
+
+  .result-grid{
+    display:grid;
+    gap:14px;
+  }
+
+  .result-card{
+    padding:20px 20px;
+    border-radius:20px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.10);
+  }
+
+  .result-card .r-icon{
+    font-size:1.5rem;
+    margin-bottom:8px;
+  }
+
+  .result-card .r-label{
+    color:var(--muted);
+    font-size:.82rem;
+    font-weight:700;
+    margin-bottom:6px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  }
+
+  .result-card .r-value{
+    font-size:1.5rem;
+    font-weight:950;
+    letter-spacing:-.02em;
+    color:#fff;
+    margin-bottom:6px;
+  }
+
+  .result-card .r-note{
+    color:var(--muted);
+    font-size:.88rem;
+    line-height:1.5;
+  }
+
+  .result-card.money{border-color:rgba(255,75,24,.4); background:linear-gradient(180deg, rgba(255,75,24,.14), rgba(255,75,24,.03));}
+  .result-card.time{border-color:rgba(255,180,80,.35); background:linear-gradient(180deg, rgba(255,180,80,.10), rgba(255,180,80,.02));}
+  .result-card.reflect{border-color:rgba(255,255,255,.18); background:rgba(255,255,255,.05);}
+
+  .compare-list{
+    list-style:none;
+    margin:18px 0 0;
+    padding:0;
+    display:grid;
+    gap:10px;
+  }
+
+  .compare-list li{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    color:var(--muted);
+    font-size:.95rem;
+    line-height:1.5;
+  }
+
+  .compare-list li::before{
+    content:"✓";
+    color:var(--accent-2);
+    font-weight:900;
+    flex:0 0 auto;
+  }
+
+  .btn{
+    display:flex;
+    width:100%;
+    margin-top:24px;
+    border:0;
+    border-radius:18px;
+    padding:18px 22px;
+    background:linear-gradient(180deg, var(--accent-2), var(--accent));
+    color:#fff;
+    font-size:1.02rem;
+    font-weight:900;
+    cursor:pointer;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    box-shadow:0 18px 42px rgba(255,75,24,.32);
+    transition:.2s ease;
+    text-decoration:none;
+  }
+
+  .btn:hover{transform:translateY(-2px); filter:brightness(1.05)}
+
+  .footer-note{
+    text-align:center;
+    margin-top:18px;
+    color:var(--muted);
+    font-size:.82rem;
+    line-height:1.5;
+  }
+
+  @media(max-width:480px){
+    .card{padding:26px 18px}
+    .cost-item{padding:13px}
+    .cost-emoji{font-size:1.3rem}
+  }
+</style>
+</head>
+<body>
+
+<main class="page">
+  <div class="brand">Move<span>Smart</span></div>
+
+  <section class="card intro">
+    <div class="icon">$</div>
+    <h1>¿Cuánto cuesta <span>rehabilitarse</span> realmente?</h1>
+    <p>No es solo pagar una consulta. Responde estas preguntas y descubre cuánto te está costando en dinero, tiempo y desgaste no tener un plan estructurado.</p>
+  </section>
+
+  <section class="card">
+    <div class="list-title">¿Hace cuánto convives con este dolor?</div>
+    <div class="time-options" id="timeOptions">
+      <div class="time-option" data-days="20" onclick="selectTime(this)"><span>Menos de 1 mes</span><div class="dot"></div></div>
+      <div class="time-option" data-days="60" onclick="selectTime(this)"><span>1 a 3 meses</span><div class="dot"></div></div>
+      <div class="time-option" data-days="135" onclick="selectTime(this)"><span>3 a 6 meses</span><div class="dot"></div></div>
+      <div class="time-option" data-days="270" onclick="selectTime(this)"><span>6 a 12 meses</span><div class="dot"></div></div>
+      <div class="time-option" data-days="400" onclick="selectTime(this)"><span>Más de 1 año</span><div class="dot"></div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="list-title">Marca lo que aplica en tu caso</div>
+
+    <div class="cost-item" data-value="60000" data-key="sueltas" onclick="toggleItem(this)">
+      <div class="cost-checkbox">✓</div>
+      <div class="cost-emoji">🩺</div>
+      <div class="cost-text">
+        <strong>Sesiones sueltas sin plan</strong>
+        <span>Vas cuando duele, sin seguimiento real</span>
+      </div>
+      <div class="cost-value">$60.000<br>/mes</div>
+    </div>
+
+    <div class="cost-item" data-value="28000" data-key="gym" onclick="toggleItem(this)">
+      <div class="cost-checkbox">✓</div>
+      <div class="cost-emoji">🏋️</div>
+      <div class="cost-text">
+        <strong>Gimnasio que casi no usas</strong>
+        <span>Pagas la mensualidad, pero el dolor te frena</span>
+      </div>
+      <div class="cost-value">$28.000<br>/mes</div>
+    </div>
+
+    <div class="cost-item" data-value="18000" data-key="medicamentos" onclick="toggleItem(this)">
+      <div class="cost-checkbox">✓</div>
+      <div class="cost-emoji">💊</div>
+      <div class="cost-text">
+        <strong>Medicamentos recurrentes</strong>
+        <span>Antiinflamatorios o analgésicos de uso frecuente</span>
+      </div>
+      <div class="cost-value">$18.000<br>/mes</div>
+    </div>
+
+    <div class="cost-item" data-value="45000" data-key="examenes" onclick="toggleItem(this)">
+      <div class="cost-checkbox">✓</div>
+      <div class="cost-emoji">🩻</div>
+      <div class="cost-text">
+        <strong>Exámenes repetidos</strong>
+        <span>Imágenes o estudios por reconsultas</span>
+      </div>
+      <div class="cost-value">$45.000</div>
+    </div>
+
+    <div class="cost-item" data-value="35000" data-key="actividades" onclick="toggleItem(this)">
+      <div class="cost-checkbox">✓</div>
+      <div class="cost-emoji">🏃</div>
+      <div class="cost-text">
+        <strong>Actividades que dejaste de hacer</strong>
+        <span>Entrenar, correr, jugar con tus hijos, dormir bien</span>
+      </div>
+      <div class="cost-value">$35.000</div>
+    </div>
+
+    <div class="cost-item" data-value="90000" data-key="recaidas" onclick="toggleItem(this)">
+      <div class="cost-checkbox">✓</div>
+      <div class="cost-emoji">🔁</div>
+      <div class="cost-text">
+        <strong>Recaídas que te devuelven a cero</strong>
+        <span>Mejoras un poco, dejas el proceso a medias, vuelve el dolor y pagas todo de nuevo</span>
+      </div>
+      <div class="cost-value">$90.000</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="result-title">Tu resultado</div>
+
+    <div class="result-grid">
+      <div class="result-card money">
+        <div class="r-icon">💰</div>
+        <div class="r-label">Costo en dinero</div>
+        <div class="r-value" id="moneyValue">$0</div>
+        <div class="r-note" id="moneyNote">Marca los ítems de arriba para calcularlo.</div>
+      </div>
+
+      <div class="result-card time">
+        <div class="r-icon">⏳</div>
+        <div class="r-label">Costo en tiempo</div>
+        <div class="r-value" id="timeValue">—</div>
+        <div class="r-note" id="timeNote">Selecciona hace cuánto te duele.</div>
+      </div>
+
+      <div class="result-card reflect">
+        <div class="r-icon">💭</div>
+        <div class="r-label">Lo que esto realmente significa</div>
+        <div class="r-note" id="reflectNote">A medida que respondas arriba, este espacio te va a mostrar un resumen de tu situación.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="list-title">Lo que cambia con un plan MoveSmart</div>
+    <ul class="compare-list">
+      <li>Un plan pensado para tu caso, no genérico</li>
+      <li>Progresión clara, no sesiones sueltas sin rumbo</li>
+      <li>Seguimiento constante, para no volver a foja cero</li>
+      <li>Ajustado a tu dolor, tu tiempo y tu vida real</li>
+    </ul>
+
+    <a class="btn" href="https://cami2025.github.io/movesmart-web/evaluacion-gratuita-movesmart.html" target="_blank" rel="noopener noreferrer">
+      Quiero mi evaluación gratis ›
+    </a>
+  </section>
+
+  <div class="footer-note">
+    Valores referenciales estimados, solo para dimensionar el costo acumulado de no tener un plan estructurado.
+  </div>
+</main>
+
+<script>
+  let selectedDays = 0;
+  const checkedKeys = new Set();
+
+  function formatCLP(n){
+    return "$" + n.toLocaleString("es-CL");
+  }
+
+  function selectTime(el){
+    document.querySelectorAll(".time-option").forEach(o => o.classList.remove("selected"));
+    el.classList.add("selected");
+    selectedDays = Number(el.dataset.days);
+    updateResults();
+  }
+
+  function toggleItem(el){
+    el.classList.toggle("checked");
+    const key = el.dataset.key;
+    if(el.classList.contains("checked")){
+      checkedKeys.add(key);
+    }else{
+      checkedKeys.delete(key);
+    }
+    updateResults();
+  }
+
+  function updateResults(){
+    updateMoney();
+    updateTime();
+    updateReflection();
+  }
+
+  function updateMoney(){
+    const items = document.querySelectorAll(".cost-item.checked");
+    let total = 0;
+    items.forEach(item => total += Number(item.dataset.value));
+
+    document.getElementById("moneyValue").textContent = formatCLP(total);
+
+    const note = document.getElementById("moneyNote");
+    if(items.length === 0){
+      note.textContent = "Marca los ítems de arriba para calcularlo.";
+    }else if(total < 60000){
+      note.textContent = "Y esto recién empieza. Sin un plan, se repite mes a mes.";
+    }else if(total < 150000){
+      note.textContent = "Ya es más que suficiente para invertir en algo que realmente te resuelva.";
+    }else{
+      note.textContent = "Esto es lo que cuesta no tener un plan, y probablemente se repite.";
+    }
+  }
+
+  function updateTime(){
+    const valueEl = document.getElementById("timeValue");
+    const noteEl = document.getElementById("timeNote");
+
+    if(selectedDays === 0){
+      valueEl.textContent = "—";
+      noteEl.textContent = "Selecciona hace cuánto te duele.";
+      return;
+    }
+
+    if(selectedDays <= 20){
+      valueEl.textContent = "~20 días";
+      noteEl.textContent = "Recién estás empezando. Es el mejor momento para partir con un plan, antes de que se vuelva algo más largo.";
+    }else if(selectedDays <= 60){
+      valueEl.textContent = "~2 meses";
+      noteEl.textContent = "Ya es tiempo suficiente para necesitar más que soluciones sueltas.";
+    }else if(selectedDays <= 135){
+      valueEl.textContent = "100+ días";
+      noteEl.textContent = "A esta altura, el dolor probablemente ya se metió en tu rutina sin que lo notaras.";
+    }else if(selectedDays <= 270){
+      valueEl.textContent = "~9 meses";
+      noteEl.textContent = "Casi un año conviviendo con lo mismo. Eso ya afecta cómo te mueves, entrenas y hasta cómo duermes.";
+    }else{
+      valueEl.textContent = "+1 año";
+      noteEl.textContent = "A estas alturas, el dolor ya no es solo físico: se volvió parte de tu día a día.";
+    }
+  }
+
+  function updateReflection(){
+    const noteEl = document.getElementById("reflectNote");
+    const n = checkedKeys.size;
+
+    if(selectedDays === 0 && n === 0){
+      noteEl.textContent = "A medida que respondas arriba, este espacio te va a mostrar un resumen de tu situación.";
+      return;
+    }
+
+    if(checkedKeys.has("recaidas")){
+      noteEl.textContent = "Estás en un círculo vicioso: mejoras un poco, bajas la guardia, y el dolor vuelve para reiniciar todo desde cero. Ese patrón no se rompe con más sesiones sueltas, se rompe con un plan que termine el proceso completo.";
+      return;
+    }
+
+    if(checkedKeys.has("actividades") && selectedDays >= 135){
+      noteEl.textContent = "Llevas meses dejando de lado cosas que te importan por este dolor. Ese costo no aparece en ninguna boleta, pero es probablemente el que más pesa.";
+      return;
+    }
+
+    if(n >= 4){
+      noteEl.textContent = "Estás pagando este dolor desde varios frentes a la vez: dinero, tiempo y cosas que dejaste de hacer. Es una señal clara de que necesitas un plan, no más parches.";
+      return;
+    }
+
+    if(n >= 1){
+      noteEl.textContent = "Ya estás pagando un costo por esto, aunque no siempre se sienta como un gasto. Mientras antes ordenes esto con un plan, menos se acumula.";
+      return;
+    }
+
+    noteEl.textContent = "Selecciona hace cuánto te duele y marca lo que te está pasando para ver tu resumen completo.";
+  }
+</script>
+</body>
+</html>
