@@ -1,4 +1,6 @@
 
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -464,7 +466,7 @@
       <li>Ajustado a tu dolor, tu tiempo y tu vida real</li>
     </ul>
 
-    <a class="btn" href="https://cami2025.github.io/movesmart-web/evaluacion-gratuita-movesmart.html" target="_blank" rel="noopener noreferrer">
+    <a class="btn" id="evaluationButton" href="https://cami2025.github.io/movesmart-web/evaluacion-gratuita-movesmart.html" target="_blank" rel="noopener noreferrer">
       Quiero mi evaluación gratis ›
     </a>
   </section>
@@ -476,7 +478,18 @@
 
 <script>
   let selectedDays = 0;
+  let selectedTimeText = "";
+  let totalCalculado = 0;
   const checkedKeys = new Set();
+
+  const sessionId =
+    "costos_" +
+    Date.now() +
+    "_" +
+    Math.random().toString(36).substring(2, 10);
+
+  const URL_APPS_SCRIPT =
+    "https://script.google.com/macros/s/AKfycbycMEHCb2QfPQwAJ_RJYLqtbTOp6uwbDNlALJYfXnTzVHoQy6eJk0RT0BMA0XzJxAcEPg/exec";
 
   function formatCLP(n){
     return "$" + n.toLocaleString("es-CL");
@@ -486,6 +499,7 @@
     document.querySelectorAll(".time-option").forEach(o => o.classList.remove("selected"));
     el.classList.add("selected");
     selectedDays = Number(el.dataset.days);
+    selectedTimeText = el.querySelector("span").textContent.trim();
     updateResults();
   }
 
@@ -510,6 +524,7 @@
     const items = document.querySelectorAll(".cost-item.checked");
     let total = 0;
     items.forEach(item => total += Number(item.dataset.value));
+    totalCalculado = total;
 
     document.getElementById("moneyValue").textContent = formatCLP(total);
 
@@ -584,6 +599,51 @@
 
     noteEl.textContent = "Selecciona hace cuánto te duele y marca lo que te está pasando para ver tu resumen completo.";
   }
+
+  function guardarRespuesta(){
+    if(selectedDays === 0){
+      alert("Selecciona hace cuánto convives con el dolor antes de continuar.");
+      return false;
+    }
+
+    const origen =
+      new URLSearchParams(window.location.search).get("utm_source") ||
+      document.referrer ||
+      "directo";
+
+    const datos = new URLSearchParams({
+      contenido: "calculadora_costos",
+      id: sessionId,
+      tiempoDolor: selectedTimeText,
+      diasEstimados: String(selectedDays),
+      sesionesSueltas: checkedKeys.has("sueltas") ? "Sí" : "No",
+      gimnasio: checkedKeys.has("gym") ? "Sí" : "No",
+      medicamentos: checkedKeys.has("medicamentos") ? "Sí" : "No",
+      examenes: checkedKeys.has("examenes") ? "Sí" : "No",
+      actividades: checkedKeys.has("actividades") ? "Sí" : "No",
+      recaidas: checkedKeys.has("recaidas") ? "Sí" : "No",
+      costoTotal: String(totalCalculado),
+      origen: origen
+    });
+
+    const imagenEnvio = new Image();
+    imagenEnvio.src =
+      URL_APPS_SCRIPT +
+      "?" +
+      datos.toString() +
+      "&_=" +
+      Date.now();
+
+    return true;
+  }
+
+  document.getElementById("evaluationButton").addEventListener("click", function(event){
+    const puedeContinuar = guardarRespuesta();
+
+    if(!puedeContinuar){
+      event.preventDefault();
+    }
+  });
 </script>
 </body>
 </html>
