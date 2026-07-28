@@ -1,3 +1,6 @@
+
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -335,6 +338,124 @@
     line-height:1.5;
   }
 
+
+  .lead-card{
+    border-color:rgba(255,75,24,.5);
+    background:
+      linear-gradient(145deg, rgba(255,75,24,.14), rgba(255,255,255,.02)),
+      var(--card);
+  }
+
+  .lead-card h2{
+    margin:0 0 10px;
+    text-align:center;
+    font-size:1.45rem;
+    line-height:1.2;
+    letter-spacing:-.03em;
+  }
+
+  .lead-card > p{
+    margin:0 0 22px;
+    text-align:center;
+    color:var(--muted);
+    line-height:1.55;
+  }
+
+  .lead-form{
+    display:grid;
+    gap:14px;
+  }
+
+  .field label{
+    display:block;
+    margin-bottom:7px;
+    font-size:.84rem;
+    font-weight:850;
+    color:#fff;
+  }
+
+  .field input,
+  .field select{
+    width:100%;
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:14px;
+    padding:14px 15px;
+    background:rgba(255,255,255,.06);
+    color:#fff;
+    font:inherit;
+    outline:none;
+  }
+
+  .field input:focus,
+  .field select:focus{
+    border-color:rgba(255,75,24,.8);
+    box-shadow:0 0 0 3px rgba(255,75,24,.12);
+  }
+
+  .field select option{
+    color:#111;
+  }
+
+  .contact-choice{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+
+  .contact-choice button{
+    border:1px solid rgba(255,255,255,.16);
+    border-radius:14px;
+    padding:13px 12px;
+    background:rgba(255,255,255,.04);
+    color:#fff;
+    font:inherit;
+    font-weight:800;
+    cursor:pointer;
+  }
+
+  .contact-choice button.active{
+    border-color:rgba(255,75,24,.85);
+    background:rgba(255,75,24,.18);
+  }
+
+  .form-message{
+    display:none;
+    padding:13px 14px;
+    border-radius:14px;
+    font-size:.9rem;
+    line-height:1.45;
+  }
+
+  .form-message.success{
+    display:block;
+    background:rgba(66,190,110,.12);
+    border:1px solid rgba(66,190,110,.35);
+  }
+
+  .form-message.error{
+    display:block;
+    background:rgba(255,75,24,.12);
+    border:1px solid rgba(255,75,24,.4);
+  }
+
+  .follow-box{
+    margin-top:16px;
+    padding:15px;
+    text-align:center;
+    border-radius:16px;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.10);
+    color:var(--muted);
+    font-size:.9rem;
+    line-height:1.5;
+  }
+
+  .follow-box a{
+    color:var(--accent-2);
+    font-weight:900;
+    text-decoration:none;
+  }
+
   @media(max-width:480px){
     .card{padding:26px 18px}
     .cost-item{padding:13px}
@@ -454,6 +575,65 @@
     </div>
   </section>
 
+  <section class="card lead-card" id="leadCard">
+    <div class="list-title">Tu siguiente paso</div>
+    <h2>¿Quieres que revise personalmente tu caso?</h2>
+    <p>Déjame tus datos y te enviaré una recomendación inicial sin costo, basada en tus respuestas.</p>
+
+    <form class="lead-form" id="leadForm">
+      <div class="field">
+        <label for="nombre">Tu nombre</label>
+        <input id="nombre" name="nombre" type="text" placeholder="Ej: Camila" autocomplete="name" required>
+      </div>
+
+      <div class="field">
+        <label>¿Dónde prefieres que te contacte?</label>
+        <div class="contact-choice">
+          <button type="button" class="contact-option active" data-contact="instagram">Instagram</button>
+          <button type="button" class="contact-option" data-contact="whatsapp">WhatsApp</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="contacto" id="contactLabel">Tu usuario de Instagram</label>
+        <input id="contacto" name="contacto" type="text" placeholder="@tuusuario" required>
+      </div>
+
+      <div class="field">
+        <label for="objetivo">¿Qué te gustaría volver a hacer?</label>
+        <select id="objetivo" name="objetivo" required>
+          <option value="">Selecciona una opción</option>
+          <option>Entrenar sin dolor</option>
+          <option>Volver a correr</option>
+          <option>Dormir mejor</option>
+          <option>Trabajar sin molestias</option>
+          <option>Jugar o compartir con mi familia</option>
+          <option>Otro</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="frustracion">¿Qué es lo que más te frustra hoy?</label>
+        <select id="frustracion" name="frustracion" required>
+          <option value="">Selecciona una opción</option>
+          <option>El dolor no desaparece</option>
+          <option>No sé qué ejercicios hacer</option>
+          <option>He probado muchas cosas sin resultado</option>
+          <option>No tengo tiempo para rehabilitarme</option>
+          <option>Tengo miedo de empeorar</option>
+        </select>
+      </div>
+
+      <button class="btn" type="submit">Quiero mi recomendación inicial ›</button>
+      <div class="form-message" id="formMessage"></div>
+    </form>
+
+    <div class="follow-box">
+      ¿Te sirvió esta herramienta? Encuentra más contenido en
+      <a href="https://www.instagram.com/movesmart.plan/" target="_blank" rel="noopener noreferrer">@movesmart.plan</a>
+    </div>
+  </section>
+
   <section class="card">
     <div class="list-title">Lo que cambia con un plan MoveSmart</div>
     <ul class="compare-list">
@@ -464,7 +644,7 @@
     </ul>
 
     <a class="btn" id="evaluationButton" href="https://cami2025.github.io/movesmart-web/evaluacion-gratuita-movesmart.html" target="_blank" rel="noopener noreferrer">
-      Quiero mi evaluación gratis ›
+      Prefiero completar la evaluación completa ›
     </a>
   </section>
 
@@ -633,6 +813,99 @@
 
     return true;
   }
+
+  let tipoContacto = "instagram";
+
+  document.querySelectorAll(".contact-option").forEach(button => {
+    button.addEventListener("click", function(){
+      document.querySelectorAll(".contact-option").forEach(b => b.classList.remove("active"));
+      this.classList.add("active");
+      tipoContacto = this.dataset.contact;
+
+      const input = document.getElementById("contacto");
+      const label = document.getElementById("contactLabel");
+
+      if(tipoContacto === "instagram"){
+        label.textContent = "Tu usuario de Instagram";
+        input.placeholder = "@tuusuario";
+        input.type = "text";
+      }else{
+        label.textContent = "Tu número de WhatsApp";
+        input.placeholder = "+56 9 1234 5678";
+        input.type = "tel";
+      }
+    });
+  });
+
+  document.getElementById("leadForm").addEventListener("submit", function(event){
+    event.preventDefault();
+
+    const message = document.getElementById("formMessage");
+
+    if(selectedDays === 0){
+      message.className = "form-message error";
+      message.textContent = "Primero selecciona hace cuánto convives con el dolor.";
+      document.getElementById("timeOptions").scrollIntoView({behavior:"smooth", block:"center"});
+      return;
+    }
+
+    const nombre = document.getElementById("nombre").value.trim();
+    const contacto = document.getElementById("contacto").value.trim();
+    const objetivo = document.getElementById("objetivo").value;
+    const frustracion = document.getElementById("frustracion").value;
+
+    if(!nombre || !contacto || !objetivo || !frustracion){
+      message.className = "form-message error";
+      message.textContent = "Completa todos los campos para recibir tu recomendación.";
+      return;
+    }
+
+    const origen =
+      new URLSearchParams(window.location.search).get("utm_source") ||
+      document.referrer ||
+      "directo";
+
+    const datos = new URLSearchParams({
+      contenido: "calculadora_costos",
+      id: sessionId,
+      tiempoDolor: selectedTimeText,
+      diasEstimados: String(selectedDays),
+      sesionesSueltas: checkedKeys.has("sueltas") ? "Sí" : "No",
+      gimnasio: checkedKeys.has("gym") ? "Sí" : "No",
+      medicamentos: checkedKeys.has("medicamentos") ? "Sí" : "No",
+      examenes: checkedKeys.has("examenes") ? "Sí" : "No",
+      actividades: checkedKeys.has("actividades") ? "Sí" : "No",
+      recaidas: checkedKeys.has("recaidas") ? "Sí" : "No",
+      costoTotal: String(totalCalculado),
+      nombre: nombre,
+      tipoContacto: tipoContacto,
+      contacto: contacto,
+      objetivo: objetivo,
+      frustracion: frustracion,
+      origen: origen,
+      estadoLead: "Solicitó recomendación"
+    });
+
+    const submitButton = this.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = "Enviando...";
+
+    const imagenEnvio = new Image();
+
+    imagenEnvio.onload = imagenEnvio.onerror = function(){
+      message.className = "form-message success";
+      message.textContent = "¡Listo! Recibí tus respuestas. Te contactaré por " +
+        (tipoContacto === "instagram" ? "Instagram." : "WhatsApp.");
+      submitButton.textContent = "Respuestas enviadas ✓";
+    };
+
+    imagenEnvio.src =
+      URL_APPS_SCRIPT +
+      "?" +
+      datos.toString() +
+      "&_=" +
+      Date.now();
+  });
 
   document.getElementById("evaluationButton").addEventListener("click", function(event){
     const puedeContinuar = guardarRespuesta();
