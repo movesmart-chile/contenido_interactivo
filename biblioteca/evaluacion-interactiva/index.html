@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -2749,7 +2748,8 @@ body.no-scroll{
       userState.estado = estado;
 
       const payload = {
-        sessionId: userState.sessionId || "",
+        contenido: "evaluacion_interactiva",
+        id: userState.sessionId || "",
         estado: userState.estado || "",
         nombre: userState.nombre || "",
         instagram: userState.instagram || "",
@@ -2758,7 +2758,11 @@ body.no-scroll{
         energia: userState.energia || "",
         tiempo: userState.tiempo || "",
         zona: userState.zona || "",
-        patologia: userState.patologia || ""
+        patologia: userState.patologia || "",
+        origen:
+          new URLSearchParams(window.location.search).get("utm_source") ||
+          document.referrer ||
+          "directo"
       };
 
       const params = new URLSearchParams(payload);
